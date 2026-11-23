@@ -1,50 +1,103 @@
 # NEXUS: Operação Autonomia
 
-**Unidade curricular:** Sistemas Multimédia (2026/2027)  
-**Curso:** Engenharia da Computação Gráfica e Multimédia  
-**Estudante:** Laurindo Samunga Gonçalo  
-**Tema atribuído:** Agentes inteligentes e tomada de decisão  
-**Tecnologia prevista:** HTML5 + Phaser 4
+Jogo académico de plataformas 2D em HTML5 para Desktop, desenvolvido em JavaScript modular com **Phaser 4.1.0** e Vite. O jogador controla um robô de manutenção numa instalação tecnológica, recolhe três núcleos por nível e evita agentes de segurança autónomos.
 
-## Objetivo
+Trabalho da Unidade Curricular Sistemas Multimédia (2026/2027), Engenharia da Computação Gráfica e Multimédia.
 
-Jogo original de plataformas 2D. O jogador controla um robô de manutenção que explora uma instalação tecnológica, recolhe três núcleos de energia e alcança a saída de cada nível, evitando agentes de segurança autónomos.
+## Mecânicas
 
-## Conceitos técnicos de IA propostos
+- Movimento com setas ou A/D e salto com Espaço.
+- Três núcleos por nível; a saída só abre após recolher todos.
+- Pontuação, vidas limitadas, dano, vitória, derrota e recomeço.
+- Dois níveis; o segundo contém mais plataformas e agentes.
+- Sinalizador temporário limitado a dois usos por nível com tecla E.
+- Aleatoriedade controlada nos slots seguros dos núcleos e sentido das patrulhas.
+- Agentes com FSM real e sistema independente de Utility AI.
 
-1. **Máquina de Estados Finitos (FSM):** patrulhar, detetar, perseguir, investigar e regressar à rota.
-2. **Tomada de decisão baseada em utilidade:** o agente compara ações possíveis (perseguir o jogador, proteger um núcleo ou investigar um sinalizador) e executa a ação com maior pontuação de utilidade.
+## Instalação e execução
 
-## Mecânica original proposta
+Requisitos: Node.js 22 ou superior e npm.
 
-O jogador dispõe de um sinalizador de distração com utilização limitada por nível. O agente pode interromper a perseguição e investigar o sinal quando essa ação apresenta maior utilidade.
+```powers
+npm install
+npm run dev
+```
 
-## Funcionalidades planeadas
+Abrir `http://127.0.0.1:5173/`.
 
-- Pelo menos dois níveis com dificuldade progressiva.
-- Movimento lateral e salto através do teclado.
-- Recolha de núcleos, pontuação e vidas.
-- Agentes autónomos com comportamentos condicionados pelo ambiente.
-- Aleatoriedade controlada na colocação de objetos e sentido inicial das patrulhas.
-- Scenes para menu/instruções, jogo e resultados.
-- Sprites animados, colisões com Arcade Physics e efeitos sonoros.
+Para gerar a versão de produção:
 
-## Estrutura inicial
+```powers
+npm run build
+npm run preview
+```
 
-- `src/`: código JavaScript e Scenes Phaser.
-- `assets/sprites/`: personagens, agentes e objetos visuais.
-- `assets/audio/`: efeitos sonoros.
-- `docs/`: relatório inicial e protótipos de baixa fidelidade.
+Para executar os testes unitários da FSM e da Utility AI:
 
-## Estado
+```powers
+npm test
+```
 
-Nesta primeira fase estão definidos o conceito, as mecânicas planeadas e dois ecrãs de protótipo de baixa fidelidade. A implementação do jogo será desenvolvida progressivamente depois da entrega da proposta.
+## Controlos
 
-## Referência do protótipo
+| Tecla | Ação |
+|---|---|
+| ← / → ou A / D | Mover |
+| Espaço ou W | Saltar |
+| E | Ativar sinalizador |
+| Enter | Entrar pelo menu |
 
-O vídeo demonstrativo disponibilizado no Moodle foi observado como referência geral do género de plataformas 2D. A temática, as personagens, a mecânica de agentes e os protótipos deste projeto são uma proposta própria.
+## Estrutura
+
+```text
+src/
+  main.js
+  config/
+    GameConstants.js
+    LevelManager.js
+  scenes/
+    MenuScene.js
+    LevelScene.js
+    ResultScene.js
+  entities/
+    Player.js
+    SecurityAgent.js
+    EnergyCore.js
+    DistractionBeacon.js
+  ai/
+    StateMachine.js
+    UtilityDecisionSystem.js
+  audio/
+    AudioFeedback.js
+docs/
+  Relatorio_Inicial_NEXUS_Phaser4.pdf
+  PBF/
+  GUIA_ESTUDO_DEFESA.md
+  DIARIO_DESENVOLVIMENTO.md
+  ASSET_CREDITS.md
+assets/
+  sprites/
+  audio/
+```
+
+## Inteligência artificial
+
+A FSM usa `PATROL`, `DETECT`, `CHASE`, `INVESTIGATE` e `RETURN`. As transições dependem de distância, visibilidade e temporizadores.
+
+A Utility AI avalia separadamente `perseguir jogador`, `proteger núcleo` e `investigar sinalizador`, normaliza os factores e escolhe o maior valor. O sinalizador pode tomar prioridade sobre perseguição ou proteção.
+
+Mais detalhes estão em `docs/GUIA_ESTUDO_DEFESA.md`.
+
+## Recursos
+
+O MVP usa placeholders geométricos gerados por Phaser e sons sintetizados com Web Audio API. Não existem referências a ficheiros externos inexistentes. Os recursos finais necessários e os respectivos formatos estão descritos em `docs/ASSET_CREDITS.md`.
+
+## Versões
+
+- Phaser: 4.1.0
+- Vite: 7
+- Física: Arcade Physics
 
 ## Repositório
 
-URL previsto: https://github.com/laurindogoncalo/NEXUS-Agentes-Phaser4  
-Confirmar o endereço depois de criar o repositório GitHub.
+https://github.com/laurindogoncalo/NEXUS-Agentes-Phaser4
